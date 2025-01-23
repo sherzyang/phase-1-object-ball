@@ -201,24 +201,57 @@ function bigShoeRebounds(){
     let selection = gameObject();
     let homeStats = Object.values(selection.home.players);
     let awayStats = Object.values(selection.away.players);
-    let obj = {}
+    let obj1 = {}
+    let obj2 = {}
+    let obj3 = {}
+    let obj4 = {}
 
-        for (item in homeStats) {
-            let keyHome = homeStats[n].shoe; 
-            let valueHome = homeStats[n].rebounds;
-            obj[keyHome] = valueHome;
+    function homeTeam(){
+        let homePlayers = Object.keys(selection.home.players);
+        for (n=0 ; n<5 ; n++) {
+            let keyHome = homePlayers[n]; 
+            let valueShoeHome = homeStats[n].shoe;
+            let valueReboundsHome = homeStats[n].rebounds;
+            obj1[keyHome] = valueShoeHome;
+            obj3[keyHome] = valueReboundsHome;
         }
-    
+        return obj1, obj3
+    }
 
-        for (item in awayStats) {
-            let keyAway = awayStats[n].shoe;
-            let valueAway = awayStats[n].rebounds;
-            obj[keyAway]=valueAway;
+    function awayTeam(){
+        let awayPlayers = Object.keys(selection.away.players);
+        for (n=0 ; n<5 ; n++) {
+            let keyAway = awayPlayers[n]
+            let valueShoeAway = awayStats[n].shoe;
+            let valueReboundsAway = awayStats[n].rebounds;
+            obj2[keyAway]=valueShoeAway; 
+            obj4[keyAway]=valueReboundsAway;  
         }
-    
-    return obj;
-    // let shoes = Object.keys(obj);
-    // let bigShoe = Math.max(...shoes);
-    // return obj[bigShoe]
+        return obj2, obj4
+    }
+
+    homeTeam()
+    awayTeam()
+    const mergedShoes = {...obj1,...obj2};
+    const mergedRebounds = {...obj3,...obj4}
+    // console.log(mergedShoes)
+    // console.log(mergedRebounds)
+    let bigShoe = Math.max(...Object.values(mergedShoes))   
+    let bigKey; 
+    let bigValue;
+
+    for (let [key, value] of Object.entries(mergedShoes)) {
+        if (value === bigShoe) {
+            bigKey = key;
+        }
+    }
+
+    for (let [key,value] of Object.entries(mergedRebounds)){
+        if (key === bigKey) {
+            bigValue = value;
+        }
+    }
+    return bigValue;
+
 }
     
